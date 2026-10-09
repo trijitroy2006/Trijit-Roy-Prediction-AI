@@ -378,7 +378,7 @@ with tab1:
             
             with st.spinner("Generating AI Analysis Results..."):
                 try:
-                    from llm_service import generate_project_analysis
+                    from milestone_4.llm_service import generate_project_analysis
                     st.session_state['analysis_results'] = generate_project_analysis(project_data)
                 except Exception as e:
                     st.error(f"Failed to load AI Engine: {e}")
