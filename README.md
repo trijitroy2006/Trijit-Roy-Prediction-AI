@@ -1,5 +1,8 @@
 ﻿# Prediction AI 🚀
 
+## 🌐 Live Demo
+**[Try Prediction AI Live on Streamlit Cloud!](https://prediction-ai-app.streamlit.app/)**
+
 ## Overview
 An intelligent decision-support platform that leverages Machine Learning and Large Language Models (LLMs) to predict startup and project failure risks, conduct comprehensive market analysis, and generate actionable strategic mitigations.
 
@@ -37,6 +40,11 @@ The application is built on a seamless, zero-configuration architecture:
 - **AI Strategic Recommendations:** Integrates Google Gemini API for high-level strategic pivots.
 - **Dynamic Risk Mitigation:** Categorized mitigation strategies with interactive UI filtering.
 - **Zero-Config Database:** Migrated from PostgreSQL to a seamless local SQLite database.
+
+### 🚀 Milestone 4: LangGraph Workflow & Cloud Deployment
+- **Multi-Agent Orchestration:** Fully integrated LangGraph workflow sequentially connecting Risk Assessment, Recommendations, Mitigation, and Improvements.
+- **Dynamic AI Dashboards:** Developed an interactive "Dashboard & Deployment" tab mapping real-time AI output states to Streamlit charts, metrics, and reports.
+- **Cloud Deployment:** Live, globally accessible deployment via Streamlit Community Cloud integrated directly with GitHub.
 
 ## LangGraph Workflow
 The platform utilizes an interactive multi-agent pipeline simulating a complete advisory team:
