@@ -41,7 +41,7 @@ The application is built on a seamless, zero-configuration architecture:
 - **Dynamic Risk Mitigation:** Categorized mitigation strategies with interactive UI filtering.
 - **Zero-Config Database:** Migrated from PostgreSQL to a seamless local SQLite database.
 
-### 🚀 Milestone 4: LangGraph Workflow & Cloud Deployment
+### 📍 Milestone 4: LangGraph Workflow & Cloud Deployment
 - **Multi-Agent Orchestration:** Fully integrated LangGraph workflow sequentially connecting Risk Assessment, Recommendations, Mitigation, and Improvements.
 - **Dynamic AI Dashboards:** Developed an interactive "Dashboard & Deployment" tab mapping real-time AI output states to Streamlit charts, metrics, and reports.
 - **Cloud Deployment:** Live, globally accessible deployment via Streamlit Community Cloud integrated directly with GitHub.
