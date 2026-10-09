@@ -1,6 +1,6 @@
-Flask
-psycopg2-binary
+﻿streamlit
 pandas
-google-genai
+numpy
 python-dotenv
-streamlit
+google-genai
+langgraph
