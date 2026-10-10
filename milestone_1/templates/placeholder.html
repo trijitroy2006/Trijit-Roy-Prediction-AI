@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Module In Development</h1>
+            <p class="subtitle">This feature will be available in upcoming milestones.</p>
+        </header>
+
+        <div class="main-window">
+            <div class="window-controls">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            
+            <nav class="tabs">
+                <a href="{{ url_for('dashboard') }}" class="tab">Project Input</a>
+                <a href="{{ url_for('risk_assessment') }}" class="tab active">Risk Assessment</a>
+                <a href="{{ url_for('placeholder') }}" class="tab">Recommendations</a>
+                <a href="{{ url_for('dashboard') }}" class="tab">Dashboard</a>
+            </nav>
+
+            <div class="content-grid" style="display: flex; justify-content: center; align-items: center; min-height: 400px;">
+                <div style="text-align: center; color: var(--text-secondary);">
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary);">Coming Soon</h2>
+                    <p>We are actively working on this module.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

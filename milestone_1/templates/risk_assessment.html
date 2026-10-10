@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction AI - Risk Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .risk-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .risk-gauge-container {
+            text-align: center;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .gauge-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .level-Low { background-color: #10b981; }
+        .level-Medium { background-color: #f59e0b; }
+        .level-High { background-color: #ef4444; }
+        .level-Unknown { background-color: #94a3b8; }
+        
+        .risk-details {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .risk-item {
+            margin-bottom: 1.25rem;
+        }
+        
+        .risk-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .risk-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .swot-box {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .swot-box.strengths { border-top: 4px solid #10b981; }
+        .swot-box.weaknesses { border-top: 4px solid #f59e0b; }
+        .swot-box.opportunities { border-top: 4px solid #3b82f6; }
+        .swot-box.threats { border-top: 4px solid #ef4444; }
+        
+        .swot-box h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .swot-box ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        
+        .swot-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        .risk-score-progress {
+            background-color: #ef4444;
+        }
+
+        .success-progress {
+            background-color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Risk Assessment & SWOT Analysis</h1>
+            <p class="subtitle">AI-driven evaluation of project viability</p>
+        </header>
+
+        <div class="main-window">
+            <div class="window-controls">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            
+            <nav class="tabs">
+                <a href="{{ url_for('dashboard') }}" class="tab">Project Input</a>
+                <a href="{{ url_for('risk_assessment') }}" class="tab active">Risk Assessment</a>
+                <a href="{{ url_for('placeholder') }}" class="tab">Recommendations</a>
+                <a href="{{ url_for('dashboard') }}" class="tab">Dashboard</a>
+            </nav>
+
+            {% if project %}
+            <div style="padding: 2rem;">
+                <h2>Project Risk Assessment</h2>
+
+                <form method="POST" action="{{ url_for('risk_assessment') }}">
+
+                    <div class="form-group">
+                        <label>Market Competition</label>
+                        <select name="market_competition" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Team Expertise</label>
+                        <select name="team_expertise" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Availability</label>
+                        <select name="resource_availability" required>
+                            <option value="Limited">Limited</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Good">Good</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Innovation Level</label>
+                        <select name="innovation_level" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Market Research</label>
+                        <select name="market_research" required>
+                            <option value="Limited">Limited</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Strong">Strong</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Market Opportunity</label>
+                        <input type="range"
+                            name="market_opportunity"
+                            min="0"
+                            max="100"
+                            value="50"
+                            oninput="this.nextElementSibling.value = this.value">
+                        <output>50</output>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Team Capability</label>
+                        <input type="range"
+                                name="team_capability"
+                                min="0"
+                                max="100"
+                                value="50"
+                                oninput="this.nextElementSibling.value = this.value">
+                        <output>50</output>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Competitive Advantage</label>
+                        <input type="range"
+                                name="competitive_advantage"
+                                min="0"
+                                max="100"
+                                value="50"
+                                oninput="this.nextElementSibling.value = this.value">
+                        <output>50</output>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Resource Availability Score</label>
+                        <input type="range"
+                                name="resource_availability_score"
+                                min="0"
+                                max="100"
+                                value="50"
+                                oninput="this.nextElementSibling.value = this.value">
+                        <output>50</output>
+                    </div>                    
+
+                    <button type="submit" class="submit-btn">
+                        Calculate Risk
+                    </button>
+
+                </form>
+            </div>
+            
+
+
+            {% if risk_score is defined %}
+            <div class="risk-dashboard">
+                <div class="risk-gauge-container">
+                    <h3 style="margin-top: 0; color: var(--text-secondary);">
+                        Success Probability
+                    </h3>
+                
+                    <div class="gauge-circle">
+                        {{ success_probability }}%
+                    </div>
+                
+                    <h2 style="margin: 0;">
+                        Risk Level: {{ risk_status }}
+                    </h2>
+                
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; text-align: center;">
+                        Risk Score: {{ risk_score }} / 100
+                    </p>
+                </div>
+            
+                <div class="risk-details">
+                    <h3 style="margin-top: 0;">Risk Assessment</h3>
+
+                    <div class="risk-item">
+                        <div class="risk-item-header">
+                            <span>Overall Risk Score</span>
+                            <span>{{ risk_score }} / 100</span>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill risk-score-progress"
+                                 data-width="{{ risk_score }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="risk-item">
+                        <div class="risk-item-header">
+                            <span>Risk Status</span>
+                            <span>{{ risk_status }}</span>
+                        </div>
+                    </div>
+
+                    <div class="risk-item">
+                        <div class="risk-item-header">
+                            <span>Success Probability</span>
+                            <span>{{ success_probability }}%</span>
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-fill success-progress"
+                                data-width="{{ success_probability }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="padding: 0 2rem 2rem 2rem;">
+                <h2>Feasibility Assessment</h2>
+                <div style="padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3 style="margin-top: 0;">Feasibility Score: {{ feasibility_score }}%</h3>
+                </div>
+
+                <h2>SWOT Analysis</h2>
+                <div class="swot-grid">
+                    <div class="swot-box strengths">
+                        <h3>Strengths</h3>
+                        <ul>
+                            {% for item in swot.Strengths %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="swot-box weaknesses">
+                        <h3>Weaknesses</h3>
+                        <ul>
+                            {% for item in swot.Weaknesses %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="swot-box opportunities">
+                        <h3>Opportunities</h3>
+                        <ul>
+                            {% for item in swot.Opportunities %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="swot-box threats">
+                        <h3>Threats</h3>
+                        <ul>
+                            {% for item in swot.Threats %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            {% endif %}
+            {% else %}
+            <div class="content-grid" style="display: flex; justify-content: center; align-items: center; min-height: 400px;">
+                <div style="text-align: center; color: var(--text-secondary);">
+                    <span style="font-size: 2rem; margin-bottom: 1rem; display: block;">⚠️</span>
+                    <h2 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary);">No Project Data Found</h2>
+                    <p>Please submit a project on the <strong>Project Input</strong> tab first.</p>
+                </div>
+            </div>
+            {% endif %}
+            
+        </div>
+    </div>
+
+<script>
+    document.querySelectorAll('.progress-fill[data-width]').forEach((bar) => {
+        bar.style.width = `${bar.dataset.width}%`;
+    });
+</script>
+
+</body>
+</html>

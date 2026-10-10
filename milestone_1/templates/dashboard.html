@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Data Collection & Market Intelligence</h1>
+            <p class="subtitle">Gather project data and analyze market landscape</p>
+        </header>
+
+        <div class="main-window">
+            <div class="window-controls">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            
+            <nav class="tabs">
+                <a href="{{ url_for('dashboard') }}" class="tab active">Project Input</a>
+                <a href="{{ url_for('risk_assessment') }}" class="tab">Risk Assessment</a>
+                <a href="{{ url_for('placeholder') }}" class="tab">Recommendations</a>
+                <a href="{{ url_for('dashboard') }}" class="tab">Dashboard</a>
+            </nav>
+
+            <div class="content-grid">
+                <!-- Column 1: Project Submission -->
+                <div class="col project-submission">
+                    <div class="col-header">
+                        <h2>Project Submission</h2>
+                        <span class="icon-plus">⊕</span>
+                    </div>
+                    <form method="POST" action="{{ url_for('dashboard') }}" class="submission-form">
+                        <div class="form-group">
+                            <label>Startup/Project Name</label>
+                            <input type="text" name="startup_name" placeholder="e.g., TechVenture AI" value="{{ project.startup_name if project else '' }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Industry/Sector</label>
+                            <select name="industry" required>
+                                <option value="Technology" {% if project and project.industry == 'Technology' %}selected{% endif %}>Technology</option>
+                                <option value="Healthcare" {% if project and project.industry == 'Healthcare' %}selected{% endif %}>Healthcare</option>
+                                <option value="Finance" {% if project and project.industry == 'Finance' %}selected{% endif %}>Finance</option>
+                                <option value="Education" {% if project and project.industry == 'Education' %}selected{% endif %}>Education</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Business Model</label>
+                            <select name="business_model" required>
+                                <option value="SaaS" {% if project and project.business_model == 'SaaS' %}selected{% endif %}>SaaS</option>
+                                <option value="B2B" {% if project and project.business_model == 'B2B' %}selected{% endif %}>B2B</option>
+                                <option value="B2C" {% if project and project.business_model == 'B2C' %}selected{% endif %}>B2C</option>
+                                <option value="Marketplace" {% if project and project.business_model == 'Marketplace' %}selected{% endif %}>Marketplace</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label>Target Market</label>
+                                <input type="text" name="target_market" placeholder="e.g., SMBs" value="{{ project.target_market if project else '' }}" required>
+                            </div>
+                            <div class="form-group half">
+                                <label>Budget (USD)</label>
+                                <input type="number" step="1000" name="budget" placeholder="e.g., $100K" value="{{ project.budget if project else '' }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Project Description</label>
+                            <textarea name="project_description" rows="4" placeholder="Brief description of your project idea..." required>{{ project.project_description if project else '' }}</textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Analyze Project</button>
+                    </form>
+                </div>
+
+                <!-- Column 2: Market Analysis -->
+                <div class="col market-analysis">
+                    <div class="col-header">
+                        <h2>Market Analysis</h2>
+                        {% if project %}
+                        <div class="legend">
+                            <span class="legend-item"><span class="dot-small blue"></span> Market Size</span>
+                            <span class="legend-item"><span class="dot-small green"></span> Growth Rate</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if project %}
+                    <div class="metrics-row">
+                        <div class="metric-card">
+                            <span class="metric-label">TAM</span>
+                            <span class="metric-value">{{ market_data.TAM.value }}</span>
+                            <span class="metric-growth {% if market_data.TAM.trend == 'up' %}positive{% else %}negative{% endif %}">
+                                {% if market_data.TAM.trend == 'up' %}↑{% else %}↓{% endif %} {{ market_data.TAM.growth }}
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">SAM</span>
+                            <span class="metric-value">{{ market_data.SAM.value }}</span>
+                            <span class="metric-growth {% if market_data.SAM.trend == 'up' %}positive{% else %}negative{% endif %}">
+                                {% if market_data.SAM.trend == 'up' %}↑{% else %}↓{% endif %} {{ market_data.SAM.growth }}
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">SOM</span>
+                            <span class="metric-value">{{ market_data.SOM.value }}</span>
+                            <span class="metric-growth {% if market_data.SOM.trend == 'up' %}positive{% else %}negative{% endif %}">
+                                {% if market_data.SOM.trend == 'up' %}↑{% else %}↓{% endif %} {{ market_data.SOM.growth }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Market Trends (2020-2026)</h3>
+                        <div class="chart-area">
+                            <!-- Visual placeholder for chart -->
+                            <div class="chart-bars">
+                                <div class="bar" style="height: 30%"><span>2020</span></div>
+                                <div class="bar" style="height: 40%"><span>2021</span></div>
+                                <div class="bar" style="height: 45%"><span>2022</span></div>
+                                <div class="bar" style="height: 55%"><span>2023</span></div>
+                                <div class="bar" style="height: 70%"><span>2024</span></div>
+                                <div class="bar" style="height: 85%"><span>2025</span></div>
+                                <div class="bar" style="height: 100%"><span>2026</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 300px; color: var(--text-secondary); text-align: center;">
+                        <span style="font-size: 2rem; margin-bottom: 1rem;">📊</span>
+                        <p>Submit a project idea on the left<br>to view the market analysis.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Column 3: Competitor Landscape -->
+                <div class="col competitor-landscape">
+                    <div class="col-header">
+                        <h2>Competitor Landscape</h2>
+                        {% if project %}
+                        <span class="icon-filter">▼</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if project %}
+                    <div class="competitor-list">
+                        {% for comp in competitors %}
+                        <div class="competitor-card">
+                            <div class="comp-header">
+                                <h3>{{ comp.name }}</h3>
+                                <span class="tag {{ comp.type.lower() }}">{{ comp.type }}</span>
+                            </div>
+                            <div class="comp-metrics">
+                                <div class="c-metric">
+                                    <span class="c-label">Market Share</span>
+                                    <span class="c-val">{{ comp.market_share }}</span>
+                                </div>
+                                <div class="c-metric">
+                                    <span class="c-label">Revenue</span>
+                                    <span class="c-val">{{ comp.revenue }}</span>
+                                </div>
+                                <div class="c-metric">
+                                    <span class="c-label">Growth</span>
+                                    <span class="c-val positive">{{ comp.growth }}</span>
+                                </div>
+                            </div>
+                            <div class="comp-progress">
+                                <span class="c-label">Market Position</span>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {{ comp.position }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 300px; color: var(--text-secondary); text-align: center;">
+                        <span style="font-size: 2rem; margin-bottom: 1rem;">🎯</span>
+                        <p>Submit a project idea to generate<br>competitor insights.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

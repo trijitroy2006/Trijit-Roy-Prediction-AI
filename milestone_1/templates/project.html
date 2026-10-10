@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="panel form-panel">
+    <h2>Project Submission</h2>
+    <form method="POST" action="{{ url_for('project') }}">
+        <div class="form-group">
+            <label>Startup / Project Name:</label>
+            <input type="text" name="startup_name" required>
+        </div>
+        <div class="form-group">
+            <label>Industry / Sector:</label>
+            <input type="text" name="industry" required>
+        </div>
+        <div class="form-group">
+            <label>Business Model:</label>
+            <input type="text" name="business_model" required>
+        </div>
+        <div class="form-group">
+            <label>Target Market:</label>
+            <input type="text" name="target_market" required>
+        </div>
+        <div class="form-group">
+            <label>Budget:</label>
+            <input type="number" step="0.01" name="budget" required>
+        </div>
+        <div class="form-group">
+            <label>Project Description:</label>
+            <textarea name="project_description" rows="4" required></textarea>
+        </div>
+        <button type="submit">Submit Project</button>
+    </form>
+</div>
+{% endblock %}
