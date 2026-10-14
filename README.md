@@ -1,7 +1,16 @@
-﻿# Prediction AI 🚀
+# Prediction AI 🚀
+
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://prediction-ai-app.streamlit.app/)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini%20API-4285F4?style=flat&logo=google&logoColor=white)](https://ai.google.dev/)
+[![SQLite](https://img.shields.io/badge/Database-SQLite3-003B57?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+
+---
 
 ## 🌐 Live Demo
 **[Try Prediction AI Live on Streamlit Cloud!](https://prediction-ai-app.streamlit.app/)**
+
+---
 
 ## Overview
 An intelligent decision-support platform that leverages Machine Learning and Large Language Models (LLMs) to predict startup and project failure risks, conduct comprehensive market analysis, and generate actionable strategic mitigations.
@@ -18,11 +27,34 @@ The application is built on a seamless, zero-configuration architecture:
 - **AI Integration:** Google Gemini API acts as the cognitive engine for deep strategic reasoning and mitigation planning.
 - **Database:** Local SQLite (`ml_project.db`) ensuring complete portability and zero setup overhead.
 
+### Architectural Breakdown
+
+| Layer | Technologies | Purpose |
+| :--- | :--- | :--- |
+| **User Interface** | Streamlit, Custom HTML/CSS | Responsive, single-page analytical dashboard |
+| **Intelligence Engine** | Google Gemini 2.5 Flash / Pro | Generative reasoning, advisory synthesis, SWOT analysis |
+| **Analytics Core** | Python, NumPy, Pandas | Algorithmic risk index calculation, market sizing calculations |
+| **Data Layer** | SQLite3 | Embedded persistence for project profiles and analytical history |
+| **Deployment** | Streamlit Community Cloud, Git | Automated CI/CD and globally available hosting |
+
 ## System Workflow
 1. **Data Ingestion:** The user submits a startup idea, specifying industry, business model, budget, and target market.
 2. **Quantitative Analysis:** The system calculates TAM/SAM/SOM, market share projections, and a baseline feasibility score.
 3. **Qualitative AI Assessment:** LLMs evaluate the project description to generate a SWOT analysis and actionable recommendations.
 4. **Agentic Processing:** LangGraph workflows process the analysis in sequential, verifiable steps to produce a finalized risk report.
+
+```
+[Milestone 1: Foundations & Market Sizing]
+       │
+       ▼
+[Milestone 2: Risk Scoring & SWOT Matrix]
+       │
+       ▼
+[Milestone 3: Gemini LLM & Mitigation Engine]
+       │
+       ▼
+[Milestone 4: Orchestration & Streamlit Deployment]
+```
 
 ## Milestones Tasks
 
@@ -62,6 +94,10 @@ The platform utilizes an interactive multi-agent pipeline simulating a complete 
 
 ## Key Project Components
 - `app_streamlit.py`: The main user interface and layout orchestrator.
+- `milestone_1/`: Market analysis engines, competitor models, and legacy foundational web assets.
+- `milestone_2/`: Risk scoring logic, algorithmic feasibility calculators, and dynamic SWOT generators.
+- `milestone_3/`: Recommendation strategies, mitigation models, and SQLite data routines.
+- `milestone_4/`: Advanced LangGraph agent workflows and Gemini LLM services.
 - `llm_service.py`: Handles all secure communications and prompting with the Gemini API.
 - `recommendation_engine.py` & `mitigation_engine.py`: Processes logic for turning raw risks into actionable advice.
 - `market_analysis.py`: Algorithmic approximation of market metrics.
